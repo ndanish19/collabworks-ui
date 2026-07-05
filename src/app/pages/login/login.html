@@ -1,0 +1,51 @@
+<div class="login-container">
+
+  <div class="left-panel">
+
+    <div class="logo">
+      <h2>👥 CollabWork</h2>
+    </div>
+
+    <div class="login-box">
+
+      <h1>Welcome Back!</h1>
+
+      <p>Sign in to continue</p>
+
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email">
+
+      <p class="error">{{ emailError }}</p>
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password">
+
+      <p class="error">{{ passwordError }}</p>
+
+      <a href="#">Forgot Password?</a>
+
+      <button (click)="login()">
+        Sign In
+      </button>
+
+
+    </div>
+
+  </div>
+
+  <div class="right-panel">
+
+    <img src="/team.png" alt="Team Illustration">
+
+    <h2>
+      Work together.<br>
+      Achieve more.
+    </h2>
+
+  </div>
+
+</div>
