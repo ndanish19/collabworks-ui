@@ -60,9 +60,16 @@ export class Login {
         console.log(response);
 
         if (response.success) {
-          localStorage.setItem('token', response.data);
+          this.authService.setToken(response.data);
 
-          this.router.navigate(['/dashboard']);
+          this.authService.fetchCurrentUser().subscribe({
+            next: () => {
+              this.router.navigate(['/dashboard']);
+            },
+            error: () => {
+              alert('Logged in, but failed to load current user.');
+            },
+          });
         } else {
           alert(response.message);
         }

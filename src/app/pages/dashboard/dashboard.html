@@ -1,281 +1,93 @@
 <div class="dashboard-container">
 
   <!-- Sidebar -->
-
   <aside class="sidebar">
 
     <div class="logo">
-
       <h2>👥 CollabWork</h2>
-
     </div>
 
-    <ul>
+    <nav>
+      <ul>
+        <li routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          🏠 Home
+        </li>
 
-      <li class="active">🏠 Home</li>
+        @if(currentUser?.role === 'ADMIN'){
+          <li routerLink="/dashboard/users" routerLinkActive="active">
+            👥 User Management
+          </li>
+        }
 
-      <li>👥 User Management</li>
+        <li>
+          📁 Projects
+        </li>
 
-      <li>📁 Projects</li>
+        <li>
+          ✅ Tasks
+        </li>
 
-      <li>✅ Tasks</li>
+        <li>
+          📄 Documents
+        </li>
 
-      <li>📄 Documents</li>
+        <li>
+          📂 Files
+        </li>
 
-      <li>📂 Files</li>
-
-      <li>💬 Messages</li>
-
-      <li>📊 Reports</li>
-
-      <li>⚙ Settings</li>
-
-      <li (click)="logout()">🚪 Logout</li>
-
-    </ul>
+        <li>
+          💬 Chat
+        </li>
+      </ul>
+    </nav>
 
   </aside>
 
-
   <!-- Main -->
-
   <div class="main">
 
     <!-- Navbar -->
-
     <header class="navbar">
 
-      <h3>🏠 Home</h3>
+      <div class="page-title">
+        🏠 Home
+      </div>
 
       <div class="navbar-right">
 
-        <input
-          type="text"
-          placeholder="Search anything..."
-        >
+        <div class="notification">
+          🔔
+        </div>
 
-        <span>🔔</span>
+        <div
+          class="profile"
+          (click)="toggleProfileMenu()">
+          👤 {{ currentUser?.name }} ▼
 
-        <span>👤 Admin</span>
+          @if(showProfileMenu){
+            <div class="profile-menu">
+              <div class="profile-header">
+                <h4>{{ currentUser?.name }}</h4>
+                <small>{{ currentUser?.role }}</small>
+              </div>
+              <hr>
+              <button>
+                👤 My Profile
+              </button>
+              <button (click)="logout()">
+                🚪 Logout
+              </button>
+            </div>
+          }
+        </div>
 
       </div>
 
     </header>
 
-
-    <!-- Content -->
-
-    <div class="content">
-
-      <div class="hero">
-
-        <div class="hero-text">
-
-          <h1>Good Afternoon, Admin 👋</h1>
-
-          <p>Welcome back to CollabWorks.</p>
-
-          <p>Manage your organization from one place.</p>
-
-        </div>
-
-        <div class="hero-image">
-          <img src="/team.png" alt="Dashboard">
-
-        </div>
-
-      </div>
-      <!-- Overview Cards -->
-
-      <div class="overview">
-
-        <div class="card">
-
-          <div class="icon users">
-            👥
-          </div>
-
-          <div class="card-info">
-
-            <h4>Total Users</h4>
-
-            <h2>000</h2>
-
-            <p>+00 this week</p>
-
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <div class="icon project">
-            📁
-          </div>
-
-          <div class="card-info">
-
-            <h4>Active Projects</h4>
-
-            <h2>00</h2>
-
-            <p>00 completed today</p>
-
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <div class="icon task">
-            ✅
-          </div>
-
-          <div class="card-info">
-
-            <h4>Running Tasks</h4>
-
-            <h2>000</h2>
-
-            <p>00 pending</p>
-
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <div class="icon request">
-            📋
-          </div>
-
-          <div class="card-info">
-
-            <h4>Pending Requests</h4>
-
-            <h2>000</h2>
-
-            <p>Require your action</p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- Bottom Section -->
-
-      <div class="dashboard-grid">
-
-        <!-- Quick Access -->
-
-        <div class="panel">
-
-          <h3>Quick Access</h3>
-
-          <div class="quick-grid">
-
-            <div class="quick-card">
-
-              <div class="quick-icon">👤</div>
-
-              <p>Create User</p>
-
-            </div>
-
-            <div class="quick-card">
-
-              <div class="quick-icon">🛡️</div>
-
-              <p>Assign Role</p>
-
-            </div>
-
-            <div class="quick-card">
-
-              <div class="quick-icon">🔑</div>
-
-              <p>Reset Password</p>
-
-            </div>
-
-            <div class="quick-card">
-
-              <div class="quick-icon">📊</div>
-
-              <p>View Reports</p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- Recent Activity -->
-
-        <div class="panel">
-
-          <div class="panel-header">
-
-            <h3>Recent Activity</h3>
-
-            <span>View All</span>
-
-          </div>
-
-          <ul class="activity-list">
-
-            <li>👤 Ahmed joined the platform</li>
-
-            <li>🛡️ Sarah changed role</li>
-
-            <li>📁 CRM Project updated</li>
-
-            <li>📄 Requirement.pdf uploaded</li>
-
-            <li>💬 Client added a comment</li>
-
-          </ul>
-
-        </div>
-
-
-        <!-- Announcements -->
-
-        <div class="panel">
-
-          <h3>Announcements</h3>
-
-          <div class="announcement">
-
-            <h4>System Maintenance</h4>
-
-            <p>Sunday • 01:00 AM - 04:00 AM</p>
-
-          </div>
-
-          <div class="announcement">
-
-            <h4>Document Module Released</h4>
-
-            <p>You can now collaborate in real-time.</p>
-
-          </div>
-
-          <div class="announcement">
-
-            <h4>Daily Backup Completed</h4>
-
-            <p>Today's backup completed successfully.</p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
 
   </div>
 
