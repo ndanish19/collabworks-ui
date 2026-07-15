@@ -1,10 +1,5 @@
 <div class="users-page">
 
-  <div class="page-header">
-    <h2>User Management</h2>
-    <button class="btn-primary" (click)="openCreateForm()">+ Add User</button>
-  </div>
-
   @if (loading) {
     <p>Loading users...</p>
   }
@@ -14,78 +9,429 @@
   }
 
   @if (!loading && !errorMessage) {
-    <table class="users-table">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-        @for (user of users; track user.id) {
+
+    <!-- ================= ADMIN ================= -->
+
+    <div class="role-card">
+
+      <div class="role-header">
+        <h2>ADMIN</h2>
+        <button class="btn-primary" (click)="openCreateForm(1)">
+          + Add User
+        </button>
+      </div>
+
+      <table class="users-table">
+
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+          @for(user of admins; track user.id){
+
+            <tr>
+
+              <td>{{user.name}}</td>
+
+              <td>{{user.email}}</td>
+
+              <td class="actions">
+
+                <button (click)="openViewUser(user)">View</button>
+
+                <button (click)="openEditForm(user)">Edit</button>
+
+                <button class="btn-danger"
+                        (click)="deleteUser(user)">
+                  Delete
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+
+    <!-- ================= MANAGER ================= -->
+
+    <div class="role-card">
+
+      <div class="role-header">
+
+        <h2>MANAGER</h2>
+
+        <button class="btn-primary"
+                (click)="openCreateForm(2)">
+          + Add User
+        </button>
+
+      </div>
+
+      <table class="users-table">
+
+        <thead>
+
+        <tr>
+
+          <th>Name</th>
+
+          <th>Email</th>
+
+          <th>Actions</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for(user of managers; track user.id){
+
+            <tr>
+
+              <td>{{user.name}}</td>
+
+              <td>{{user.email}}</td>
+
+              <td class="actions">
+
+                <button (click)="openViewUser(user)">View</button>
+
+                <button (click)="openEditForm(user)">Edit</button>
+
+                <button class="btn-danger"
+                        (click)="deleteUser(user)">
+                  Delete
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+
+    <!-- ================= TEAM LEAD ================= -->
+
+    <div class="role-card">
+
+      <div class="role-header">
+
+        <h2>TEAM LEAD</h2>
+
+        <button class="btn-primary"
+                (click)="openCreateForm(3)">
+          + Add User
+        </button>
+
+      </div>
+
+      <table class="users-table">
+
+        <thead>
+
+        <tr>
+
+          <th>Name</th>
+
+          <th>Email</th>
+
+          <th>Actions</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for(user of teamLeads; track user.id){
+
+            <tr>
+
+              <td>{{user.name}}</td>
+
+              <td>{{user.email}}</td>
+
+              <td class="actions">
+
+                <button (click)="openViewUser(user)">View</button>
+
+                <button (click)="openEditForm(user)">Edit</button>
+
+                <button class="btn-danger"
+                        (click)="deleteUser(user)">
+                  Delete
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+
+    <!-- ================= EMPLOYEE ================= -->
+
+    <div class="role-card">
+
+      <div class="role-header">
+
+        <h2>EMPLOYEE</h2>
+
+        <button class="btn-primary"
+                (click)="openCreateForm(4)">
+          + Add User
+        </button>
+
+      </div>
+
+      <table class="users-table">
+
+        <thead>
+
+        <tr>
+
+          <th>Name</th>
+
+          <th>Email</th>
+
+          <th>Actions</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for(user of employees; track user.id){
+
+            <tr>
+
+              <td>{{user.name}}</td>
+
+              <td>{{user.email}}</td>
+
+              <td class="actions">
+
+                <button (click)="openViewUser(user)">View</button>
+
+                <button (click)="openEditForm(user)">Edit</button>
+
+                <button class="btn-danger"
+                        (click)="deleteUser(user)">
+                  Delete
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+
+    <!-- ================= CLIENT ================= -->
+
+    <div class="role-card">
+
+      <div class="role-header">
+
+        <h2>CLIENT</h2>
+
+        <button class="btn-primary"
+                (click)="openCreateForm(5)">
+          + Add User
+        </button>
+
+      </div>
+
+      @if(clients.length === 0){
+
+        <p class="empty-message">
+          No Clients Found
+        </p>
+
+      } @else {
+
+        <table class="users-table">
+
+          <thead>
+
           <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role.roleName }}</td>
-            <td>{{ user.createdAt | date: 'medium' }}</td>
-            <td class="actions">
-              <button (click)="openViewUser(user)">View</button>
-              <button (click)="openEditForm(user)">Edit</button>
-              <button class="btn-danger" (click)="deleteUser(user)">Delete</button>
-            </td>
+
+            <th>Name</th>
+
+            <th>Email</th>
+
+            <th>Actions</th>
+
           </tr>
-        }
-      </tbody>
-    </table>
+
+          </thead>
+
+          <tbody>
+
+            @for(user of clients; track user.id){
+
+              <tr>
+
+                <td>{{user.name}}</td>
+
+                <td>{{user.email}}</td>
+
+                <td class="actions">
+
+                  <button (click)="openViewUser(user)">View</button>
+
+                  <button (click)="openEditForm(user)">Edit</button>
+
+                  <button class="btn-danger"
+                          (click)="deleteUser(user)">
+                    Delete
+                  </button>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      }
+
+    </div>
+
   }
 
+
+
+  <!-- ================= CREATE / EDIT MODAL ================= -->
+
   @if (showForm) {
+
     <div class="modal-overlay" (click)="closeForm()">
+
       <div class="modal" (click)="$event.stopPropagation()">
+
         <h3>{{ editingUser ? 'Edit User' : 'Create User' }}</h3>
 
         <label>Name</label>
-        <input type="text" [(ngModel)]="formData.name" placeholder="Full name" />
+        <input type="text" [(ngModel)]="formData.name">
 
         <label>Email</label>
-        <input type="email" [(ngModel)]="formData.email" placeholder="Email" />
+        <input type="email" [(ngModel)]="formData.email">
 
         <label>Password {{ editingUser ? '(leave blank to keep current password)' : '' }}</label>
-        <input type="password" [(ngModel)]="formData.password" placeholder="Password" />
+        <input type="password" [(ngModel)]="formData.password">
 
         <label>Role</label>
+
         <select [(ngModel)]="formData.role.id">
-          @for (role of roles; track role.id) {
-            <option [value]="role.id">{{ role.roleName }}</option>
+
+          @for(role of roles; track role.id){
+
+            <option [value]="role.id">
+
+              {{role.roleName}}
+
+            </option>
+
           }
+
         </select>
 
         <div class="modal-actions">
-          <button class="btn-primary" (click)="saveUser()">Save</button>
-          <button (click)="closeForm()">Cancel</button>
+
+          <button class="btn-primary"
+                  (click)="saveUser()">
+            Save
+          </button>
+
+          <button (click)="closeForm()">
+            Cancel
+          </button>
+
         </div>
+
       </div>
+
     </div>
+
   }
 
-  @if (viewingUser) {
-    <div class="modal-overlay" (click)="closeView()">
-      <div class="modal" (click)="$event.stopPropagation()">
+
+
+  <!-- ================= VIEW MODAL ================= -->
+
+  @if(viewingUser){
+
+    <div class="modal-overlay"
+         (click)="closeView()">
+
+      <div class="modal"
+           (click)="$event.stopPropagation()">
+
         <h3>User Details</h3>
 
-        <p><strong>Name:</strong> {{ viewingUser.name }}</p>
-        <p><strong>Email:</strong> {{ viewingUser.email }}</p>
-        <p><strong>Role:</strong> {{ viewingUser.role.roleName }}</p>
-        <p><strong>Created At:</strong> {{ viewingUser.createdAt | date: 'medium' }}</p>
+        <p><strong>Name:</strong> {{viewingUser.name}}</p>
+
+        <p><strong>Email:</strong> {{viewingUser.email}}</p>
+
+        <p><strong>Role:</strong> {{viewingUser.role.roleName}}</p>
+
+        <p><strong>Created At:</strong> {{viewingUser.createdAt | date:'medium'}}</p>
 
         <div class="modal-actions">
-          <button (click)="closeView()">Close</button>
+
+          <button (click)="closeView()">
+
+            Close
+
+          </button>
+
         </div>
+
       </div>
+
     </div>
+
   }
 
 </div>

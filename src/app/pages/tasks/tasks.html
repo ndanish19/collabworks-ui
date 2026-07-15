@@ -1,0 +1,277 @@
+<div class="tasks-page">
+
+  <div class="page-header">
+
+    @if (canCreateDelete) {
+      <button class="btn-primary" (click)="openCreateForm()">
+        + Add Task
+      </button>
+    }
+
+  </div>
+
+  @if (loading) {
+    <p>Loading tasks...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  @if (!loading && !errorMessage) {
+
+    <table class="tasks-table">
+
+      <thead>
+      <tr>
+        <th>Task</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Due Date</th>
+        <th>Project</th>
+        <th>Assigned User</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+        @for (task of tasks; track task.id) {
+
+          <tr>
+
+            <td>{{ task.taskName }}</td>
+
+            <td>{{ task.status }}</td>
+
+            <td>{{ task.priority }}</td>
+
+            <td>{{ task.dueDate | date:'mediumDate' }}</td>
+
+            <td>{{ task.project.projectName }}</td>
+
+            <td>{{ task.assignedUser.name }}</td>
+
+            <td class="actions">
+
+              <button (click)="openViewTask(task)">
+                View
+              </button>
+
+              @if (canEdit) {
+                <button (click)="openEditForm(task)">
+                  Edit
+                </button>
+              }
+
+              @if (canCreateDelete) {
+                <button
+                  class="btn-danger"
+                  (click)="deleteTask(task)">
+                  Delete
+                </button>
+              }
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  }
+
+  @if (showForm) {
+
+    <div
+      class="modal-overlay"
+      (click)="closeForm()">
+
+      <div
+        class="modal"
+        (click)="$event.stopPropagation()">
+
+        <h3>
+          {{ editingTask ? 'Edit Task' : 'Create Task' }}
+        </h3>
+
+        <label>Task Name</label>
+
+        <input
+          type="text"
+          [(ngModel)]="formData.taskName">
+
+        <label>Description</label>
+
+        <textarea
+          rows="3"
+          [(ngModel)]="formData.description">
+        </textarea>
+
+        <label>Status</label>
+
+        <select [(ngModel)]="formData.status">
+
+          @for (status of statuses; track status) {
+
+            <option [value]="status">
+
+              {{ status }}
+
+            </option>
+
+          }
+
+        </select>
+
+        <label>Priority</label>
+
+        <select [(ngModel)]="formData.priority">
+
+          @for (priority of priorities; track priority) {
+
+            <option [value]="priority">
+
+              {{ priority }}
+
+            </option>
+
+          }
+
+        </select>
+
+        <label>Due Date</label>
+
+        <input
+          type="date"
+          [(ngModel)]="formData.dueDate">
+
+        <label>Project</label>
+
+        <select [(ngModel)]="formData.project.id">
+
+          <option [ngValue]="0">
+            -- Select Project --
+          </option>
+
+          @for (project of projects; track project.id) {
+
+            <option [ngValue]="project.id">
+
+              {{ project.projectName }}
+
+            </option>
+
+          }
+
+        </select>
+
+
+
+        <label>Assigned User</label>
+
+        <select [(ngModel)]="formData.assignedUser.id">
+
+          <option [ngValue]="0">
+            -- Select Employee --
+          </option>
+
+          @for (user of users; track user.id) {
+
+            <option [ngValue]="user.id">
+
+              {{ user.name }}
+
+            </option>
+
+          }
+
+        </select>
+
+        <div class="modal-actions">
+
+          <button
+            class="btn-primary"
+            (click)="saveTask()">
+            Save
+          </button>
+
+          <button (click)="closeForm()">
+            Cancel
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+  @if (viewingTask) {
+
+    <div
+      class="modal-overlay"
+      (click)="closeView()">
+
+      <div
+        class="modal"
+        (click)="$event.stopPropagation()">
+
+        <h3>Task Details</h3>
+
+        <p>
+          <strong>Name:</strong>
+          {{ viewingTask.taskName }}
+        </p>
+
+        <p>
+          <strong>Description:</strong>
+          {{ viewingTask.description }}
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          {{ viewingTask.status }}
+        </p>
+
+        <p>
+          <strong>Priority:</strong>
+          {{ viewingTask.priority }}
+        </p>
+
+        <p>
+          <strong>Due Date:</strong>
+          {{ viewingTask.dueDate | date:'mediumDate' }}
+        </p>
+
+        <p>
+          <strong>Project:</strong>
+          {{ viewingTask.project.projectName }}
+        </p>
+
+        <p>
+          <strong>Assigned User:</strong>
+          {{ viewingTask.assignedUser.name }}
+        </p>
+
+        <div class="modal-actions">
+
+          <button (click)="closeView()">
+
+            Close
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

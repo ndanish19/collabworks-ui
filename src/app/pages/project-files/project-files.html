@@ -1,0 +1,88 @@
+<div class="project-files-page">
+  <a routerLink="/dashboard/files">&larr; Back to Files</a>
+
+  @if (project) {
+    <div class="project-info">
+      <h3>{{ project.projectName }}</h3>
+      <p>Status: {{ project.status }}</p>
+      <p>Deadline: {{ project.deadline }}</p>
+      <p>Manager: {{ project.createdBy?.name }}</p>
+      <p>Team Lead: {{ project.teamLead?.name }}</p>
+    </div>
+  }
+
+  <div class="files-header">
+    <h4>Files</h4>
+    @if (canUpload) {
+      <button class="btn-primary" (click)="showUploadDialog = true">+ Upload File</button>
+    }
+  </div>
+
+<!--  @if (loading) {-->
+<!--    <p>Loading...</p>-->
+<!--  } @else {-->
+<!--    <table class="files-table">-->
+<!--      <thead>-->
+<!--      <tr><th>Name</th><th>Type</th><th>Uploaded by</th><th>Actions</th></tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--        @for (file of files; track file.id) {-->
+<!--          <tr>-->
+<!--            <td>{{ file.fileName }}</td>-->
+<!--            <td>{{ file.fileType }}</td>-->
+<!--            <td>{{ file.uploadedBy?.name }}</td>-->
+<!--            <td class="actions">-->
+<!--              <button (click)="download(file)">Download</button>-->
+<!--              @if (canDelete) {-->
+<!--                <button class="btn-danger" (click)="deleteFile(file)">Delete</button>-->
+<!--              }-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--        }-->
+<!--        @if (files.length === 0) {-->
+<!--          <tr><td colspan="4">No files uploaded yet.</td></tr>-->
+<!--        }-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  }-->
+  <table class="files-table">
+    <thead>
+    <tr><th>Name</th><th>Type</th><th>Uploaded by</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      @for (file of files; track file.id) {
+        <tr>
+          <td>
+            <a href="javascript:void(0)" (click)="viewFile(file)">{{ file.fileName }}</a>
+          </td>
+          <td>{{ file.fileType }}</td>
+          <td>{{ file.uploadedBy?.name }}</td>
+          <td class="actions">
+            <button (click)="download(file)">Download</button>
+            @if (canDelete) {
+              <button class="btn-danger" (click)="deleteFile(file)">Delete</button>
+            }
+          </td>
+        </tr>
+      }
+      @if (files.length === 0) {
+        <tr><td colspan="4">No files uploaded yet.</td></tr>
+      }
+    </tbody>
+  </table>
+
+  @if (showUploadDialog) {
+    <div class="modal-backdrop" (click)="showUploadDialog = false">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h4>Upload File</h4>
+        <input type="file" (change)="onFileSelected($event)" />
+        <div class="modal-actions">
+          <button (click)="showUploadDialog = false">Cancel</button>
+          <button class="btn-primary" [disabled]="!selectedFile || uploading" (click)="uploadMore()">
+            {{ uploading ? 'Uploading...' : 'Upload' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

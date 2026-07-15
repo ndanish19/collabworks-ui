@@ -1,0 +1,252 @@
+<div class="projects-page">
+
+  <div class="page-header">
+    <h2>Projects</h2>
+
+    @if (canManage) {
+      <button class="btn-primary" (click)="openCreateForm()">
+        + Add Project
+      </button>
+    }
+  </div>
+
+  @if (loading) {
+    <p>Loading projects...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  @if (!loading && !errorMessage) {
+
+    <table class="projects-table">
+
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Deadline</th>
+        <th>Team Lead</th>
+        <th>Employees</th>
+        <th>Clients</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+        @for(project of projects; track project.id){
+
+          <tr>
+
+            <td>{{project.projectName}}</td>
+
+            <td>{{project.status}}</td>
+
+            <td>{{project.deadline | date:'mediumDate'}}</td>
+
+            <td>
+              {{ project.teamLead?.name || '-' }}
+            </td>
+
+            <td>
+
+              @if(project.employees.length){
+
+                @for(emp of project.employees; track emp.id){
+                  <span class="badge">{{emp.name}}</span>
+                }
+
+              } @else {
+                -
+              }
+
+            </td>
+
+            <td>
+
+              @if(project.clients.length){
+
+                @for(client of project.clients; track client.id){
+                  <span class="badge client">
+                    {{client.name}}
+                  </span>
+                }
+
+              } @else {
+                -
+              }
+
+            </td>
+
+            <td class="actions">
+
+              <button class="btn-view" (click)="openViewProject(project)">View</button>
+
+              @if(canManage){
+
+                <button
+                  class="btn-edit"
+                  (click)="openEditForm(project)">
+                  Edit
+                </button>
+
+                <button
+                  class="btn-danger"
+                  (click)="deleteProject(project)">
+                  Delete
+                </button>
+
+              }
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  }
+
+  <!-- ===================== CREATE / EDIT ===================== -->
+
+  @if(showForm){
+
+    <div class="modal-overlay" (click)="closeForm()">
+
+      <div class="modal large" (click)="$event.stopPropagation()">
+
+        <h3>
+
+          {{ editingProject ? 'Edit Project' : 'Create Project' }}
+
+        </h3>
+
+        <label>Project Name</label>
+
+        <input
+          type="text"
+          [(ngModel)]="formData.projectName">
+
+        <label>Description</label>
+
+        <textarea
+          rows="3"
+          [(ngModel)]="formData.description">
+        </textarea>
+
+        <label>Status</label>
+
+        <select [(ngModel)]="formData.status">
+
+          @for(status of statuses; track status){
+
+            <option [value]="status">
+              {{status}}
+            </option>
+
+          }
+
+        </select>
+
+        <label>Deadline</label>
+
+        <input
+          type="date"
+          [(ngModel)]="formData.deadline">
+
+        <!-- TEAM LEAD -->
+
+        <label>Team Lead</label>
+
+        <select [(ngModel)]="selectedTeamLeadId">
+
+          <option [ngValue]="null">
+            Select Team Lead
+          </option>
+
+          @for(user of teamLeads; track user.id){
+
+            <option [ngValue]="user.id">
+              {{user.name}}
+            </option>
+
+          }
+
+        </select>
+
+        <!-- EMPLOYEES -->
+
+        <label>Employees</label>
+
+        <div class="checkbox-list">
+
+          @for(emp of employees; track emp.id){
+
+            <label class="checkbox-item">
+
+              <input
+                type="checkbox"
+                [checked]="selectedEmployeeIds.includes(emp.id)"
+                (change)="toggleEmployee(emp.id,$event)">
+
+              {{emp.name}}
+
+            </label>
+
+          }
+
+        </div>
+
+        <!-- CLIENTS -->
+
+        <label>Clients</label>
+
+        <div class="checkbox-list">
+
+          @for(client of clients; track client.id){
+
+            <label class="checkbox-item">
+
+              <input
+                type="checkbox"
+                [checked]="selectedClientIds.includes(client.id)"
+                (change)="toggleClient(client.id,$event)">
+
+              {{client.name}}
+
+            </label>
+
+          }
+
+        </div>
+
+        <div class="modal-actions">
+
+          <button
+            class="btn-primary"
+            (click)="saveProject()">
+            Save
+          </button>
+
+          <button
+            (click)="closeForm()">
+            Cancel
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+
+
+
+</div>

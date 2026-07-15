@@ -13,12 +13,20 @@ import { User, UserFormPayload, ROLES, Role } from '../../models/user.model';
 })
 export class Users implements OnInit {
   users: User[] = [];
+
+  admins: User[] = [];
+  managers: User[] = [];
+  teamLeads: User[] = [];
+  employees: User[] = [];
+  clients: User[] = [];
+
   roles: Role[] = ROLES;
 
   loading = false;
   errorMessage = '';
 
   showForm = false;
+
   editingUser: User | null = null;
   viewingUser: User | null = null;
 
@@ -40,36 +48,63 @@ export class Users implements OnInit {
     this.userService.getAllUsers().subscribe({
       next: (users) => {
         this.users = users;
+
+        this.admins = users.filter((user) => user.role.roleName === 'ADMIN');
+
+        this.managers = users.filter((user) => user.role.roleName === 'MANAGER');
+
+        this.teamLeads = users.filter((user) => user.role.roleName === 'TEAM_LEAD');
+
+        this.employees = users.filter((user) => user.role.roleName === 'EMPLOYEE');
+
+        this.clients = users.filter((user) => user.role.roleName === 'CLIENT');
+
         this.loading = false;
+
         this.cdr.detectChanges();
       },
+
       error: (err) => {
         this.errorMessage = err.error?.message || 'Failed to load users.';
+
         this.loading = false;
+
         this.cdr.detectChanges();
       },
     });
   }
 
-  openCreateForm(): void {
+  openCreateForm(roleId: number = 1): void {
     this.editingUser = null;
-    this.formData = this.emptyForm();
+
+    this.formData = {
+      ...this.emptyForm(),
+      role: {
+        id: roleId,
+      },
+    };
+
     this.showForm = true;
   }
 
   openEditForm(user: User): void {
     this.editingUser = user;
+
     this.formData = {
       name: user.name,
       email: user.email,
       password: '',
-      role: { id: user.role.id },
+      role: {
+        id: user.role.id,
+      },
     };
+
     this.showForm = true;
   }
 
   closeForm(): void {
     this.showForm = false;
+
     this.editingUser = null;
   }
 
@@ -96,16 +131,20 @@ export class Users implements OnInit {
       this.userService.updateUser(this.editingUser.id, this.formData).subscribe({
         next: () => {
           this.closeForm();
+
           this.loadUsers();
         },
+
         error: (err) => alert(err.error?.message || 'Failed to update user.'),
       });
     } else {
       this.userService.createUser(this.formData).subscribe({
         next: () => {
           this.closeForm();
+
           this.loadUsers();
         },
+
         error: (err) => alert(err.error?.message || 'Failed to create user.'),
       });
     }
@@ -118,6 +157,7 @@ export class Users implements OnInit {
 
     this.userService.deleteUser(user.id).subscribe({
       next: () => this.loadUsers(),
+
       error: (err) => {
         const rawMessage = err.error?.message || '';
 
@@ -140,7 +180,9 @@ export class Users implements OnInit {
       name: '',
       email: '',
       password: '',
-      role: { id: 1 },
+      role: {
+        id: 1,
+      },
     };
   }
 }

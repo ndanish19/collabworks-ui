@@ -14,6 +14,9 @@ export class UserService {
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
+  getEmployees(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/employees`);
+  }
 
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
@@ -29,5 +32,8 @@ export class UserService {
 
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  getUsersByRole(role: string) {
+    return this.http.get<User[]>(`${this.apiUrl}/role/${role}`);
   }
 }

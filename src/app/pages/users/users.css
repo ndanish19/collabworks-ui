@@ -1,12 +1,23 @@
 .users-page {
-  max-width: 1000px;
+  max-width: 1100px;
 }
 
-.page-header {
+.role-card {
+  margin-bottom: 40px;
+}
+
+.role-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+}
+
+.role-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .btn-primary {
@@ -16,7 +27,13 @@
   padding: 10px 18px;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 14px;
   font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background: #4338ca;
 }
 
 .btn-danger {
@@ -26,70 +43,145 @@
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
 }
 
 .error {
   color: #ef4444;
+  margin-bottom: 20px;
 }
 
 .users-table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  border-radius: 10px;
+  background: #ffffff;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.users-table th,
-.users-table td {
+.users-table th {
+  background: #f8fafc;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
   text-align: left;
-  padding: 14px 16px;
-  border-bottom: 1px solid #eee;
+  padding: 14px 18px;
+}
+
+.users-table td {
+  padding: 14px 18px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.users-table tbody tr:hover {
+  background: #f9fafb;
 }
 
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .actions button {
-  padding: 6px 12px;
-  border-radius: 6px;
   border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
   cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.actions button:not(.btn-danger) {
+  background: #f3f4f6;
+}
+
+.actions button:not(.btn-danger):hover {
+  background: #e5e7eb;
+}
+
+.empty-message {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  color: #6b7280;
+  text-align: center;
+  border: 1px dashed #d1d5db;
 }
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 200;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal {
+  width: 450px;
   background: white;
-  padding: 30px;
   border-radius: 14px;
-  width: 380px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+}
+
+.modal h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.modal label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
 }
 
 .modal input,
-.modal select {
+.modal select,
+.modal textarea {
+  width: 100%;
   padding: 10px;
+  border: 1px solid #d1d5db;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.modal input:focus,
+.modal select:focus,
+.modal textarea:focus {
+  border-color: #4f46e5;
 }
 
 .modal-actions {
   display: flex;
-  gap: 10px;
   justify-content: flex-end;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.modal-actions button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-actions button:last-child {
+  background: #f3f4f6;
+}
+
+.modal-actions button:last-child:hover {
+  background: #e5e7eb;
 }

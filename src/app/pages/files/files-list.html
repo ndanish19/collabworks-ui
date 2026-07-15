@@ -1,0 +1,82 @@
+<div class="files-page">
+  <div class="files-header">
+    <h3>Files</h3>
+    @if (canUpload) {
+      <button class="btn-primary" (click)="openUploadDialog()">+ Upload to Project</button>
+    }
+  </div>
+
+  @if (loading) {
+    <p>Loading...</p>
+  } @else {
+    <table class="files-table">
+      <thead>
+      <tr><th>Project</th><th>Files</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        @for (p of projectsWithFiles; track p.id) {
+          <tr>
+            <td>{{ p.projectName }}</td>
+            <td>{{ p.fileCount }}</td>
+            <td><button (click)="openProject(p.id)">View</button></td>
+          </tr>
+        }
+        @if (projectsWithFiles.length === 0) {
+          <tr><td colspan="3">No project files yet.</td></tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (showUploadDialog) {
+    <div class="modal-backdrop" (click)="closeUploadDialog()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h4>Upload to Project</h4>
+
+        <label>Select Project</label>
+
+        @if (projectsWithoutFiles.length === 0) {
+
+          <p>
+            All your accessible projects already contain files.
+          </p>
+
+        } @else {
+
+          <select
+            [(ngModel)]="selectedProjectId"
+            [ngModelOptions]="{standalone: true}">
+
+            <option [ngValue]="null" disabled>
+              Choose a project
+            </option>
+
+            @for (p of projectsWithoutFiles; track p.id) {
+              <option [ngValue]="p.id">
+                {{ p.projectName }}
+              </option>
+            }
+
+          </select>
+
+          <label>Choose File</label>
+
+          <input
+            type="file"
+            (change)="onFileSelected($event)" />
+
+        }
+
+        <div class="modal-actions">
+          <button (click)="closeUploadDialog()">Cancel</button>
+          <button
+            class="btn-primary"
+            [disabled]="!selectedProjectId || !selectedFile || uploading"
+            (click)="submitUpload()">
+            {{ uploading ? 'Uploading...' : 'Upload' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

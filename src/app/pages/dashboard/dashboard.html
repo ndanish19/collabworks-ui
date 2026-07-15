@@ -19,19 +19,16 @@
           </li>
         }
 
-        <li>
+        <li routerLink="/dashboard/projects" routerLinkActive="active">
           📁 Projects
         </li>
 
-        <li>
-          ✅ Tasks
-        </li>
 
         <li>
           📄 Documents
         </li>
 
-        <li>
+        <li routerLink="/dashboard/files" routerLinkActive="active">
           📂 Files
         </li>
 
@@ -50,7 +47,7 @@
     <header class="navbar">
 
       <div class="page-title">
-        🏠 Home
+        {{ pageTitle }}
       </div>
 
       <div class="navbar-right">
