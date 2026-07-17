@@ -12,3 +12,9 @@ export interface Message {
   projectId?: number;
   projectName?: string;
 }
+
+export interface ConversationUser {
+  id: number;
+  name: string;
+  role: string;
+}

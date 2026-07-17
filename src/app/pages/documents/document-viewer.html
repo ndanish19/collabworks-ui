@@ -1,0 +1,141 @@
+<div class="document-viewer-page">
+
+  <button class="back-btn" (click)="goBack()">
+    ← Back to Project Documents
+  </button>
+
+  @if (loading) {
+
+    <div class="empty-state">
+      Loading document...
+    </div>
+
+  } @else if (doc) {
+
+    <div class="doc-card">
+
+      <div class="doc-header">
+
+        <h2>{{ doc.title }}</h2>
+
+        <div class="meta">
+
+          <span><strong>Project:</strong> {{ doc.projectName }}</span>
+
+          <span><strong>Created By:</strong> {{ doc.createdByName }}</span>
+
+          <span><strong>Updated:</strong> {{ doc.updatedAt | date:'medium' }}</span>
+
+          <span><strong>Version:</strong> {{ doc.version }}</span>
+
+        </div>
+
+      </div>
+
+      @if (conflict) {
+
+        <div class="conflict-banner">
+
+          <span>
+            ⚠ This document was updated by another user.
+          </span>
+
+          <button
+            class="secondary-btn"
+            (click)="refresh()">
+
+            Refresh
+
+          </button>
+
+        </div>
+
+      }
+
+      @if (!editMode) {
+
+        <div class="doc-content">
+
+          {{ doc.content }}
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="secondary-btn"
+            (click)="download()">
+
+            Download PDF
+
+          </button>
+
+          @if (canEdit) {
+
+            <button
+              class="primary-btn"
+              (click)="enterEditMode()">
+
+              Edit
+
+            </button>
+
+          }
+
+          @if (canDelete) {
+
+            <button
+              class="danger-btn"
+              (click)="deleteDocument()">
+
+              Delete
+
+            </button>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <label>Document Title</label>
+
+        <input
+          [(ngModel)]="editTitle"
+        />
+
+        <label>Document Content</label>
+
+        <textarea
+          rows="14"
+          [(ngModel)]="editContent">
+        </textarea>
+
+        <div class="actions">
+
+          <button
+            class="primary-btn"
+            [disabled]="saving"
+            (click)="save()">
+
+            {{ saving ? 'Saving...' : 'Save Changes' }}
+
+          </button>
+
+          <button
+            class="secondary-btn"
+            (click)="cancelEdit()">
+
+            Cancel
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

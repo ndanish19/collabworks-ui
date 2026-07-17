@@ -1,8 +1,19 @@
-.projects-page {
+.project-documents-page {
   padding: 24px;
 }
 
-/* ===================================== */
+.back-btn {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
 
 .header-row {
   display: flex;
@@ -17,8 +28,6 @@
   font-size: 14px;
 }
 
-/* ===================================== */
-
 .primary-btn {
   background: #2563eb;
   color: white;
@@ -26,6 +35,7 @@
   padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .primary-btn:hover {
@@ -33,7 +43,8 @@
 }
 
 .primary-btn:disabled {
-  opacity: .6;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .secondary-btn {
@@ -48,21 +59,6 @@
   background: #d1d5db;
 }
 
-.danger-btn {
-  background: #dc2626;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.danger-btn:hover {
-  background: #b91c1c;
-}
-
-/* ===================================== */
-
 .empty-state {
   padding: 40px;
   text-align: center;
@@ -71,9 +67,7 @@
   color: #666;
 }
 
-/* ===================================== */
-
-.projects-table {
+.doc-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
@@ -81,7 +75,7 @@
   overflow: hidden;
 }
 
-.projects-table th {
+.doc-table th {
   text-align: left;
   background: #f8f9fa;
   padding: 14px;
@@ -90,123 +84,55 @@
   color: #555;
 }
 
-.projects-table td {
+.doc-table td {
   padding: 14px;
   border-bottom: 1px solid #eeeeee;
 }
 
-.projects-table tr:hover {
-  background: #eef4ff;
-}
-
-/* ===================================== */
-
-.badge {
-  display: inline-block;
-  padding: 5px 10px;
-  background: #eef4ff;
-  color: #2563eb;
-  border-radius: 20px;
-  margin: 2px;
-  font-size: 12px;
-}
-
-.badge.client {
-  background: #fff7e6;
-  color: #b45309;
-}
-
-/* ===================================== */
-
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* ===================================== */
-
-.btn-view {
-  background: #e5e7eb;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
+.doc-table tr {
   cursor: pointer;
+  transition: background 0.2s;
 }
 
-.btn-view:hover {
-  background: #d1d5db;
+.doc-table tr:hover {
+  background: #eef4ff;
 }
-
-/* ===================================== */
 
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.45);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-  z-index: 999;
 }
 
 .modal {
-  width: 520px;
-
+  width: 450px;
   background: white;
-
   border-radius: 10px;
-
   padding: 24px;
-
   display: flex;
   flex-direction: column;
-
   gap: 12px;
-}
-
-.modal.large {
-  width: 600px;
 }
 
 .modal h3 {
   margin: 0 0 8px;
 }
 
-.modal label {
-  font-weight: 600;
-}
-
 .modal input,
-.modal textarea,
-.modal select {
+.modal textarea {
   width: 100%;
-
-  padding: 12px;
-
+  padding: 10px;
   border: 1px solid #d1d5db;
-
   border-radius: 6px;
-
   font-family: inherit;
-
   box-sizing: border-box;
 }
 
-.checkbox-list {
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  padding: 12px;
-  max-height: 180px;
-  overflow-y: auto;
-}
-
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+.modal textarea {
+  resize: vertical;
 }
 
 .modal-actions {

@@ -1,60 +1,139 @@
 <div class="files-page">
-  <div class="files-header">
-    <h3>Files</h3>
+
+  <div class="header-row">
+
+    <div>
+
+
+      <p class="sub-title">
+        View and manage project files.
+      </p>
+    </div>
+
     @if (canUpload) {
-      <button class="btn-primary" (click)="openUploadDialog()">+ Upload to Project</button>
+
+      <button
+        class="primary-btn"
+        (click)="openUploadDialog()">
+
+        + Upload File
+
+      </button>
+
     }
+
   </div>
 
   @if (loading) {
-    <p>Loading...</p>
+
+    <div class="empty-state">
+      Loading files...
+    </div>
+
+  } @else if (projectsWithFiles.length === 0) {
+
+    <div class="empty-state">
+      No project files available.
+    </div>
+
   } @else {
+
     <table class="files-table">
+
       <thead>
-      <tr><th>Project</th><th>Files</th><th>Actions</th></tr>
+
+      <tr>
+
+        <th>Project</th>
+
+        <th>Files</th>
+
+        <th>Actions</th>
+
+      </tr>
+
       </thead>
+
       <tbody>
+
         @for (p of projectsWithFiles; track p.id) {
+
           <tr>
-            <td>{{ p.projectName }}</td>
-            <td>{{ p.fileCount }}</td>
-            <td><button (click)="openProject(p.id)">View</button></td>
+
+            <td>
+              📁 {{ p.projectName }}
+            </td>
+
+            <td>
+              {{ p.fileCount }}
+            </td>
+
+            <td class="actions">
+
+              <button
+                class="secondary-btn"
+                (click)="openProject(p.id)">
+
+                View
+
+              </button>
+
+            </td>
+
           </tr>
+
         }
-        @if (projectsWithFiles.length === 0) {
-          <tr><td colspan="3">No project files yet.</td></tr>
-        }
+
       </tbody>
+
     </table>
+
   }
 
   @if (showUploadDialog) {
-    <div class="modal-backdrop" (click)="closeUploadDialog()">
-      <div class="modal" (click)="$event.stopPropagation()">
-        <h4>Upload to Project</h4>
+
+    <div
+      class="modal-backdrop"
+      (click)="closeUploadDialog()">
+
+      <div
+        class="modal"
+        (click)="$event.stopPropagation()">
+
+        <h3>Upload File</h3>
 
         <label>Select Project</label>
 
         @if (projectsWithoutFiles.length === 0) {
 
-          <p>
-            All your accessible projects already contain files.
-          </p>
+          <div class="empty-state">
+
+            All accessible projects already contain files.
+
+          </div>
 
         } @else {
 
           <select
             [(ngModel)]="selectedProjectId"
-            [ngModelOptions]="{standalone: true}">
+            [ngModelOptions]="{ standalone: true }">
 
-            <option [ngValue]="null" disabled>
-              Choose a project
+            <option
+              [ngValue]="null"
+              disabled>
+
+              Choose a Project
+
             </option>
 
             @for (p of projectsWithoutFiles; track p.id) {
+
               <option [ngValue]="p.id">
+
                 {{ p.projectName }}
+
               </option>
+
             }
 
           </select>
@@ -68,15 +147,30 @@
         }
 
         <div class="modal-actions">
-          <button (click)="closeUploadDialog()">Cancel</button>
+
           <button
-            class="btn-primary"
+            class="secondary-btn"
+            (click)="closeUploadDialog()">
+
+            Cancel
+
+          </button>
+
+          <button
+            class="primary-btn"
             [disabled]="!selectedProjectId || !selectedFile || uploading"
             (click)="submitUpload()">
-            {{ uploading ? 'Uploading...' : 'Upload' }}
+
+            {{ uploading ? 'Uploading...' : 'Upload File' }}
+
           </button>
+
         </div>
+
       </div>
+
     </div>
+
   }
+
 </div>

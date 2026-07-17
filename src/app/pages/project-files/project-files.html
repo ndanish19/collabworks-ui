@@ -1,88 +1,231 @@
 <div class="project-files-page">
-  <a routerLink="/dashboard/files">&larr; Back to Files</a>
+
+<!--  <button-->
+<!--    class="back-btn"</button>-->
 
   @if (project) {
-    <div class="project-info">
-      <h3>{{ project.projectName }}</h3>
-      <p>Status: {{ project.status }}</p>
-      <p>Deadline: {{ project.deadline }}</p>
-      <p>Manager: {{ project.createdBy?.name }}</p>
-      <p>Team Lead: {{ project.teamLead?.name }}</p>
+
+    <div class="project-card">
+
+      <div class="project-header">
+
+        <div>
+
+          <h2>{{ project.projectName }}</h2>
+
+          <p class="sub-title">
+            View and manage project files.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="meta">
+
+        <span>
+          <strong>Status:</strong>
+          {{ project.status }}
+        </span>
+
+        <span>
+          <strong>Deadline:</strong>
+          {{ project.deadline }}
+        </span>
+
+        <span>
+          <strong>Manager:</strong>
+          {{ project.createdBy?.name }}
+        </span>
+
+        <span>
+          <strong>Team Lead:</strong>
+          {{ project.teamLead?.name }}
+        </span>
+
+      </div>
+
     </div>
+
   }
 
-  <div class="files-header">
-    <h4>Files</h4>
+  <div class="header-row">
+
+    <div>
+
+      <h2>Files</h2>
+
+      <p class="sub-title">
+
+        All files available in this project.
+
+      </p>
+
+    </div>
+
     @if (canUpload) {
-      <button class="btn-primary" (click)="showUploadDialog = true">+ Upload File</button>
+
+      <button
+        class="primary-btn"
+        (click)="showUploadDialog = true">
+
+        + Upload File
+
+      </button>
+
     }
+
   </div>
 
-<!--  @if (loading) {-->
-<!--    <p>Loading...</p>-->
-<!--  } @else {-->
-<!--    <table class="files-table">-->
-<!--      <thead>-->
-<!--      <tr><th>Name</th><th>Type</th><th>Uploaded by</th><th>Actions</th></tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--        @for (file of files; track file.id) {-->
-<!--          <tr>-->
-<!--            <td>{{ file.fileName }}</td>-->
-<!--            <td>{{ file.fileType }}</td>-->
-<!--            <td>{{ file.uploadedBy?.name }}</td>-->
-<!--            <td class="actions">-->
-<!--              <button (click)="download(file)">Download</button>-->
-<!--              @if (canDelete) {-->
-<!--                <button class="btn-danger" (click)="deleteFile(file)">Delete</button>-->
-<!--              }-->
-<!--            </td>-->
-<!--          </tr>-->
-<!--        }-->
-<!--        @if (files.length === 0) {-->
-<!--          <tr><td colspan="4">No files uploaded yet.</td></tr>-->
-<!--        }-->
-<!--      </tbody>-->
-<!--    </table>-->
-<!--  }-->
-  <table class="files-table">
-    <thead>
-    <tr><th>Name</th><th>Type</th><th>Uploaded by</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-      @for (file of files; track file.id) {
-        <tr>
-          <td>
-            <a href="javascript:void(0)" (click)="viewFile(file)">{{ file.fileName }}</a>
-          </td>
-          <td>{{ file.fileType }}</td>
-          <td>{{ file.uploadedBy?.name }}</td>
-          <td class="actions">
-            <button (click)="download(file)">Download</button>
-            @if (canDelete) {
-              <button class="btn-danger" (click)="deleteFile(file)">Delete</button>
-            }
-          </td>
-        </tr>
-      }
-      @if (files.length === 0) {
-        <tr><td colspan="4">No files uploaded yet.</td></tr>
-      }
-    </tbody>
-  </table>
+  @if (loading) {
+
+    <div class="empty-state">
+
+      Loading files...
+
+    </div>
+
+  } @else if (files.length === 0) {
+
+    <div class="empty-state">
+
+      No files uploaded yet.
+
+    </div>
+
+  } @else {
+
+    <table class="files-table">
+
+      <thead>
+
+      <tr>
+
+        <th>Name</th>
+
+        <th>Type</th>
+
+        <th>Uploaded By</th>
+
+        <th>Actions</th>
+
+      </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for (file of files; track file.id) {
+
+          <tr>
+
+            <td>
+
+              📄
+
+              <a
+                href="javascript:void(0)"
+                (click)="viewFile(file)">
+
+                {{ file.fileName }}
+
+              </a>
+
+            </td>
+
+            <td>
+
+              {{ file.fileType }}
+
+            </td>
+
+            <td>
+
+              {{ file.uploadedBy?.name }}
+
+            </td>
+
+            <td class="actions">
+
+              <button
+                class="secondary-btn"
+                (click)="download(file)">
+
+                Download
+
+              </button>
+
+              @if (canDelete) {
+
+                <button
+                  class="danger-btn"
+                  (click)="deleteFile(file)">
+
+                  Delete
+
+                </button>
+
+              }
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  }
 
   @if (showUploadDialog) {
-    <div class="modal-backdrop" (click)="showUploadDialog = false">
-      <div class="modal" (click)="$event.stopPropagation()">
-        <h4>Upload File</h4>
-        <input type="file" (change)="onFileSelected($event)" />
+
+    <div
+      class="modal-overlay"
+      (click)="showUploadDialog = false">
+
+      <div
+        class="modal"
+        (click)="$event.stopPropagation()">
+
+        <h3>Upload File</h3>
+
+        <label>
+
+          Choose File
+
+        </label>
+
+        <input
+          type="file"
+          (change)="onFileSelected($event)" />
+
         <div class="modal-actions">
-          <button (click)="showUploadDialog = false">Cancel</button>
-          <button class="btn-primary" [disabled]="!selectedFile || uploading" (click)="uploadMore()">
-            {{ uploading ? 'Uploading...' : 'Upload' }}
+
+          <button
+            class="secondary-btn"
+            (click)="showUploadDialog = false">
+
+            Cancel
+
           </button>
+
+          <button
+            class="primary-btn"
+            [disabled]="!selectedFile || uploading"
+            (click)="uploadMore()">
+
+            {{ uploading ? 'Uploading...' : 'Upload File' }}
+
+          </button>
+
         </div>
+
       </div>
+
     </div>
+
   }
+
 </div>

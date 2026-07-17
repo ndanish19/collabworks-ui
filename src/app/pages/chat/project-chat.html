@@ -1,0 +1,78 @@
+<div class="chat-viewer-page">
+
+  <button
+    class="back-btn"
+    (click)="goBack()">
+
+    ← Back to Messages
+
+  </button>
+
+  <div class="chat-card">
+
+    <div class="chat-header">
+
+      <h2>{{ projectName }}</h2>
+
+      <div class="meta">
+
+        <span>
+          <strong>Conversation:</strong>
+          Project Group Chat
+        </span>
+
+      </div>
+
+    </div>
+
+    <div class="messages">
+
+      @for (m of messages; track $index) {
+
+        <div
+          class="message"
+          [class.mine]="m.senderId === currentUser?.id">
+
+          <div class="meta-text">
+
+            {{ m.senderName }}
+
+            ·
+
+            {{ m.sentAt | date:'shortTime' }}
+
+          </div>
+
+          <div class="bubble">
+
+            {{ m.content }}
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+    <div class="composer">
+
+      <input
+        [(ngModel)]="newMessage"
+        (keyup.enter)="send()"
+        placeholder="Type your message..."
+      />
+
+      <button
+        class="primary-btn"
+        (click)="send()">
+
+        Send
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,89 +1,166 @@
 <div class="dashboard-container">
 
-  <!-- Sidebar -->
+  <!-- ================= Sidebar ================= -->
+
   <aside class="sidebar">
 
     <div class="logo">
+
       <h2>👥 CollabWork</h2>
+
     </div>
 
     <nav>
+
       <ul>
-        <li routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+
+        <li
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+
           🏠 Home
+
         </li>
 
-        @if(currentUser?.role === 'ADMIN'){
-          <li routerLink="/dashboard/users" routerLinkActive="active">
+        @if (currentUser?.role === 'ADMIN') {
+
+          <li
+            routerLink="/dashboard/users"
+            routerLinkActive="active">
+
             👥 User Management
+
           </li>
+
         }
 
-        <li routerLink="/dashboard/projects" routerLinkActive="active">
+        <li
+          routerLink="/dashboard/projects"
+          routerLinkActive="active">
+
           📁 Projects
+
         </li>
 
+        <li
+          routerLink="/dashboard/documents"
+          routerLinkActive="active">
 
-        <li>
           📄 Documents
+
         </li>
 
-        <li routerLink="/dashboard/files" routerLinkActive="active">
+        <li
+          routerLink="/dashboard/files"
+          routerLinkActive="active">
+
           📂 Files
+
         </li>
 
-        <li>
+        <li
+          routerLink="/dashboard/chat"
+          routerLinkActive="active">
+
           💬 Chat
+
         </li>
+
       </ul>
+
     </nav>
 
   </aside>
 
-  <!-- Main -->
+  <!-- ================= Main ================= -->
+
   <div class="main">
 
-    <!-- Navbar -->
+    <!-- ================= Navbar ================= -->
+
     <header class="navbar">
 
       <div class="page-title">
+
         {{ pageTitle }}
+
       </div>
 
       <div class="navbar-right">
 
-        <div class="notification">
+        <button
+          class="notification-btn"
+          type="button">
+
           🔔
-        </div>
+
+        </button>
 
         <div
           class="profile"
           (click)="toggleProfileMenu()">
-          👤 {{ currentUser?.name }} ▼
 
-          @if(showProfileMenu){
+          <span class="profile-name">
+
+            👤 {{ currentUser?.name }}
+
+          </span>
+
+          <span class="profile-arrow">
+
+            ▼
+
+          </span>
+
+          @if (showProfileMenu) {
+
             <div class="profile-menu">
+
               <div class="profile-header">
-                <h4>{{ currentUser?.name }}</h4>
-                <small>{{ currentUser?.role }}</small>
+
+                <h4>
+
+                  {{ currentUser?.name }}
+
+                </h4>
+
+                <small>
+
+                  {{ currentUser?.role }}
+
+                </small>
+
               </div>
+
               <hr>
-              <button>
-                👤 My Profile
-              </button>
-              <button (click)="logout()">
+
+              <button type="button" routerLink="/dashboard/profile" (click)="showProfileMenu = false">👤 My Profile</button>
+
+              <button
+                type="button"
+                (click)="logout()">
+
                 🚪 Logout
+
               </button>
+
             </div>
+
           }
+
         </div>
 
       </div>
 
     </header>
 
+    <!-- ================= Page Content ================= -->
+
     <main class="content">
+
       <router-outlet></router-outlet>
+
     </main>
 
   </div>

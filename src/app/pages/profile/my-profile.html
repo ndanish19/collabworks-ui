@@ -1,0 +1,77 @@
+<div class="profile-page">
+
+  <div class="header-row">
+
+    <div>
+
+      <h2>My Profile</h2>
+
+      <p class="sub-title">
+
+        View your account information.
+
+      </p>
+
+    </div>
+
+  </div>
+
+  @if (currentUser) {
+
+    <div class="profile-card">
+
+      <div class="avatar">
+
+        👤
+
+      </div>
+
+      <div class="profile-info">
+
+        <div class="field">
+
+          <strong>Name</strong>
+
+          <span>{{ currentUser.name }}</span>
+
+        </div>
+
+        <div class="field">
+
+          <strong>Email</strong>
+
+          <span>{{ currentUser.email }}</span>
+
+        </div>
+
+        <div class="field">
+
+          <strong>Role</strong>
+
+          <span>{{ currentUser.role }}</span>
+
+        </div>
+
+        <div class="field">
+
+          <strong>User ID</strong>
+
+          <span>#{{ currentUser.id }}</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  } @else {
+
+    <div class="empty-state">
+
+      Loading profile...
+
+    </div>
+
+  }
+
+</div>

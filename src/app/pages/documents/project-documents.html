@@ -1,0 +1,128 @@
+<div class="project-documents-page">
+
+  <button class="back-btn" (click)="goBack()">
+    ← Back to Project Documents
+  </button>
+
+  <div class="header-row">
+
+    <div>
+      <h2>{{ projectName || 'Project' }} Documents</h2>
+      <p class="sub-title">
+        View and manage all documents for this project.
+      </p>
+    </div>
+
+    @if (canCreate) {
+      <button class="primary-btn" (click)="openCreateDialog()">
+        + New Document
+      </button>
+    }
+
+  </div>
+
+  @if (loading) {
+
+    <div class="empty-state">
+      Loading documents...
+    </div>
+
+  } @else if (documents.length === 0) {
+
+    <div class="empty-state">
+      No documents available for this project.
+    </div>
+
+  } @else {
+
+    <table class="doc-table">
+
+      <thead>
+
+      <tr>
+        <th>Title</th>
+        <th>Created By</th>
+        <th>Last Updated</th>
+      </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for (doc of documents; track doc.id) {
+
+          <tr (click)="openDocument(doc.id)">
+
+            <td>
+              📄 {{ doc.title }}
+            </td>
+
+            <td>
+              {{ doc.createdByName }}
+            </td>
+
+            <td>
+              {{ doc.updatedAt | date:'medium' }}
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  }
+
+  @if (showCreateDialog) {
+
+    <div class="modal-overlay">
+
+      <div class="modal">
+
+        <h3>Create New Document</h3>
+
+        <label>Title</label>
+
+        <input
+          [(ngModel)]="newTitle"
+          placeholder="Enter document title"
+        />
+
+        <label>Content</label>
+
+        <textarea
+          [(ngModel)]="newContent"
+          rows="8"
+          placeholder="Enter document content">
+        </textarea>
+
+        <div class="modal-actions">
+
+          <button
+            class="primary-btn"
+            [disabled]="creating"
+            (click)="submitCreate()">
+
+            {{ creating ? 'Creating...' : 'Create Document' }}
+
+          </button>
+
+          <button
+            class="secondary-btn"
+            (click)="closeCreateDialog()">
+
+            Cancel
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

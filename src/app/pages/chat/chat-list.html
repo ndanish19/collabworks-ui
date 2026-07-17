@@ -1,0 +1,201 @@
+<div class="chat-page">
+
+  <div class="header-row">
+
+    <div>
+
+
+      <p class="sub-title">
+        View your project and private conversations.
+      </p>
+    </div>
+
+    <button
+      class="primary-btn"
+      (click)="openModal()">
+
+      + New Conversation
+
+    </button>
+
+  </div>
+
+  @if (projects.length > 0) {
+
+    <div class="conversation-section">
+
+      <h3>Project Conversations</h3>
+
+      @for (p of projects; track p.id) {
+
+        <div
+          class="conversation-card"
+          (click)="openProjectChat(p.id, p.projectName)">
+
+          <div class="left">
+
+            <span class="icon">📁</span>
+
+            <div class="info">
+
+              <h4>{{ p.projectName }}</h4>
+
+              <p>Project Group Chat</p>
+
+            </div>
+
+          </div>
+
+          <span class="arrow">➜</span>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+  @if (canSendPrivate) {
+
+    <div class="conversation-section">
+
+      <h3>Private Conversations</h3>
+
+      @if (privateConversations.length === 0) {
+
+        <div class="empty-state">
+          No private conversations yet.
+        </div>
+
+      } @else {
+
+        @for (u of privateConversations; track u.id) {
+
+          <div
+            class="conversation-card"
+            (click)="openPrivateChat(u.id, u.name)">
+
+            <div class="left">
+
+              <span class="icon">👤</span>
+
+              <div class="info">
+
+                <h4>{{ u.name }}</h4>
+
+                <p>Private Conversation</p>
+
+              </div>
+
+            </div>
+
+            <span class="arrow">➜</span>
+
+          </div>
+
+        }
+
+      }
+
+    </div>
+
+  }
+
+</div>
+
+@if (showModal) {
+
+  <div class="modal-overlay">
+
+    <div class="modal">
+
+      <h3>Create Conversation</h3>
+
+      <label>Message Type</label>
+
+      <select
+        [(ngModel)]="messageType"
+        (ngModelChange)="onMessageTypeChange()">
+
+        @if (canSendPrivate) {
+          <option value="PRIVATE">
+            Private Message
+          </option>
+        }
+
+        <option value="PROJECT">
+          Project Message
+        </option>
+
+      </select>
+
+      @if (messageType === 'PRIVATE') {
+
+        <label>Recipient</label>
+
+        <select [(ngModel)]="selectedUserId">
+
+          <option [ngValue]="null">
+            Select User
+          </option>
+
+          @for (u of allUsers; track u.id) {
+
+            <option [ngValue]="u.id">
+              {{ u.name }}
+            </option>
+
+          }
+
+        </select>
+
+      }
+
+      @if (messageType === 'PROJECT') {
+
+        <label>Project</label>
+
+        <select [(ngModel)]="selectedProjectId">
+
+          <option [ngValue]="null">
+            Select Project
+          </option>
+
+          @for (p of projects; track p.id) {
+
+            <option [ngValue]="p.id">
+              {{ p.projectName }}
+            </option>
+
+          }
+
+        </select>
+
+      }
+
+      <div class="modal-actions">
+
+        <button
+          class="primary-btn"
+          (click)="createConversation()">
+
+          Create
+
+        </button>
+
+        <button
+          class="secondary-btn"
+          (click)="closeModal()">
+
+          Cancel
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

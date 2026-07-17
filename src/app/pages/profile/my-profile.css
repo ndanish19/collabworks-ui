@@ -1,0 +1,97 @@
+.profile-page {
+  padding: 24px;
+}
+
+/* ======================================
+   Header
+====================================== */
+
+.header-row {
+  margin-bottom: 24px;
+}
+
+.header-row h2 {
+  margin: 0;
+}
+
+.sub-title {
+  margin-top: 6px;
+  color: #777;
+  font-size: 14px;
+}
+
+/* ======================================
+   Card
+====================================== */
+
+.profile-card {
+  max-width: 550px;
+
+  background: white;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  padding: 24px;
+}
+
+/* ======================================
+   Avatar
+====================================== */
+
+.avatar {
+  width: 90px;
+  height: 90px;
+
+  margin: auto auto 24px;
+
+  border-radius: 50%;
+
+  background: #eef4ff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 40px;
+}
+
+/* ======================================
+   Information
+====================================== */
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 12px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.field strong {
+  color: #444;
+}
+
+.field span {
+  color: #666;
+}
+
+/* ======================================
+   Empty State
+====================================== */
+
+.empty-state {
+  padding: 40px;
+  text-align: center;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  color: #666;
+}

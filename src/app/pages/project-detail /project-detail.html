@@ -1,111 +1,426 @@
-<div class="detail-page">
+<div class="project-detail-page">
 
-  <button class="btn-back" (click)="goBack()">← Back to Projects</button>
+  <button
+    class="back-btn"
+    (click)="goBack()">
 
-  @if (loading) { <p>Loading...</p> }
-  @if (errorMessage) { <p class="error">{{ errorMessage }}</p> }
+    ← Back to Projects
 
-  @if (project) {
+  </button>
 
-    <div class="info-card">
-      <h2>{{ project.projectName }}</h2>
-      <p><strong>Status:</strong> {{ project.status }}</p>
-      <p><strong>Deadline:</strong> {{ project.deadline | date:'mediumDate' }}</p>
-      <p><strong>Created By:</strong> {{ project.createdBy?.name || '-' }}</p>
-      <p><strong>Team Lead:</strong> {{ project.teamLead?.name || '-' }}</p>
+  @if (loading) {
 
-      <p><strong>Employees:</strong>
-        @for (e of project.employees; track e.id) { <span class="badge">{{ e.name }}</span> }
-      </p>
-
-      <p><strong>Clients:</strong>
-        @for (c of project.clients; track c.id) { <span class="badge client">{{ c.name }}</span> }
-      </p>
-
-      @if (canEditProject || canDeleteProject) {
-        <div class="actions">
-          @if (canEditProject) { <button class="btn-edit">Edit Project</button> }
-          @if (canDeleteProject) { <button class="btn-danger" (click)="deleteProject()">Delete Project</button> }
-        </div>
-      }
+    <div class="empty-state">
+      Loading project details...
     </div>
 
-    <div class="tasks-section">
+  } @else if (errorMessage) {
 
-      <div class="page-header">
-        <h3>Tasks</h3>
-        @if (canAddTask) {
-          <button class="btn-primary" (click)="openCreateTask()">+ Add Task</button>
+    <div class="empty-state">
+      {{ errorMessage }}
+    </div>
+
+  } @else if (project) {
+
+    <!-- ===========================
+         Project Information
+    ============================ -->
+
+    <div class="project-card">
+
+      <div class="project-header">
+
+        <div>
+
+          <h2>{{ project.projectName }}</h2>
+
+          <p class="sub-title">
+            View project information and manage tasks.
+          </p>
+
+        </div>
+
+        @if (canEditProject || canDeleteProject) {
+
+          <div class="actions">
+
+            @if (canEditProject) {
+
+              <button
+                class="secondary-btn">
+
+                Edit Project
+
+              </button>
+
+            }
+
+            @if (canDeleteProject) {
+
+              <button
+                class="danger-btn"
+                (click)="deleteProject()">
+
+                Delete Project
+
+              </button>
+
+            }
+
+          </div>
+
         }
+
       </div>
 
-      <table class="tasks-table">
-        <thead>
-        <tr>
-          <th>Task</th><th>Status</th><th>Priority</th><th>Due Date</th><th>Assigned</th><th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-          @for (task of tasks; track task.id) {
-            <tr>
-              <td>{{ task.taskName }}</td>
-              <td>{{ task.status }}</td>
-              <td>{{ task.priority }}</td>
-              <td>{{ task.dueDate | date:'mediumDate' }}</td>
-              <td>{{ task.assignedUser.name }}</td>
-              <td class="actions">
-                @if (canEditTask) { <button (click)="openEditTask(task)">Edit</button> }
-                @if (canDeleteTask) { <button class="btn-danger" (click)="deleteTask(task)">Delete</button> }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+      <div class="meta">
+
+        <span>
+          <strong>Status:</strong>
+          {{ project.status }}
+        </span>
+
+        <span>
+          <strong>Deadline:</strong>
+          {{ project.deadline | date:'mediumDate' }}
+        </span>
+
+        <span>
+          <strong>Created By:</strong>
+          {{ project.createdBy?.name || '-' }}
+        </span>
+
+        <span>
+          <strong>Team Lead:</strong>
+          {{ project.teamLead?.name || '-' }}
+        </span>
+
+      </div>
+
+      <label>Employees</label>
+
+      <div class="badge-container">
+
+        @for (e of project.employees; track e.id) {
+
+          <span class="badge">
+
+            {{ e.name }}
+
+          </span>
+
+        }
+
+      </div>
+
+      <label>Clients</label>
+
+      <div class="badge-container">
+
+        @for (c of project.clients; track c.id) {
+
+          <span class="badge client">
+
+            {{ c.name }}
+
+          </span>
+
+        }
+
+      </div>
 
     </div>
+
+    <!-- ===========================
+         Tasks
+    ============================ -->
+
+    <div class="tasks-card">
+
+      <div class="header-row">
+
+        <div>
+
+          <h2>Tasks</h2>
+
+          <p class="sub-title">
+
+            View and manage project tasks.
+
+          </p>
+
+        </div>
+
+        @if (canAddTask) {
+
+          <button
+            class="primary-btn"
+            (click)="openCreateTask()">
+
+            + Add Task
+
+          </button>
+
+        }
+
+      </div>
+
+      @if (tasks.length === 0) {
+
+        <div class="empty-state">
+
+          No tasks available.
+
+        </div>
+
+      } @else {
+
+        <table class="task-table">
+
+          <thead>
+
+          <tr>
+
+            <th>Task</th>
+
+            <th>Status</th>
+
+            <th>Priority</th>
+
+            <th>Due Date</th>
+
+            <th>Assigned To</th>
+
+            <th>Actions</th>
+
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (task of tasks; track task.id) {
+
+              <tr>
+
+                <td>
+
+                  {{ task.taskName }}
+
+                </td>
+
+                <td>
+
+                  {{ task.status }}
+
+                </td>
+
+                <td>
+
+                  {{ task.priority }}
+
+                </td>
+
+                <td>
+
+                  {{ task.dueDate | date:'mediumDate' }}
+
+                </td>
+
+                <td>
+
+                  {{ task.assignedUser.name }}
+
+                </td>
+
+                <td class="actions">
+
+                  @if (canEditTask) {
+
+                    <button
+                      class="secondary-btn"
+                      (click)="openEditTask(task)">
+
+                      Edit
+
+                    </button>
+
+                  }
+
+                  @if (canDeleteTask) {
+
+                    <button
+                      class="danger-btn"
+                      (click)="deleteTask(task)">
+
+                      Delete
+
+                    </button>
+
+                  }
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      }
+
+    </div>
+
   }
 
+  <!-- ===========================
+       Task Modal
+  ============================ -->
+
   @if (showTaskForm) {
-    <div class="modal-overlay" (click)="closeTaskForm()">
-      <div class="modal" (click)="$event.stopPropagation()">
 
-        <h3>{{ editingTask ? 'Edit Task' : 'Create Task' }}</h3>
+    <div
+      class="modal-overlay"
+      (click)="closeTaskForm()">
 
-        <label>Task Name</label>
-        <input type="text" [(ngModel)]="formData.taskName">
+      <div
+        class="modal"
+        (click)="$event.stopPropagation()">
 
-        <label>Description</label>
-        <textarea rows="3" [(ngModel)]="formData.description"></textarea>
+        <h3>
 
-        <label>Status</label>
-        <select [(ngModel)]="formData.status">
-          @for (s of statuses; track s) { <option [value]="s">{{ s }}</option> }
+          {{ editingTask ? 'Edit Task' : 'Create Task' }}
+
+        </h3>
+
+        <label>
+
+          Task Name
+
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="formData.taskName" />
+
+        <label>
+
+          Description
+
+        </label>
+
+        <textarea
+          rows="4"
+          [(ngModel)]="formData.description">
+
+        </textarea>
+
+        <label>
+
+          Status
+
+        </label>
+
+        <select
+          [(ngModel)]="formData.status">
+
+          @for (s of statuses; track s) {
+
+            <option [value]="s">
+
+              {{ s }}
+
+            </option>
+
+          }
+
         </select>
 
-        <label>Priority</label>
-        <select [(ngModel)]="formData.priority">
-          @for (p of priorities; track p) { <option [value]="p">{{ p }}</option> }
+        <label>
+
+          Priority
+
+        </label>
+
+        <select
+          [(ngModel)]="formData.priority">
+
+          @for (p of priorities; track p) {
+
+            <option [value]="p">
+
+              {{ p }}
+
+            </option>
+
+          }
+
         </select>
 
-        <label>Due Date</label>
-        <input type="date" [(ngModel)]="formData.dueDate">
+        <label>
 
-        <label>Assigned User</label>
+          Due Date
+
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="formData.dueDate" />
+
+        <label>
+
+          Assigned User
+
+        </label>
+
         <select
           [(ngModel)]="formData.assignedUser.id"
           [disabled]="role === 'EMPLOYEE'">
 
-          <option [ngValue]="0">-- Select Employee --</option>
-          @for (u of projectEmployees; track u.id) { <option [ngValue]="u.id">{{ u.name }}</option> }
+          <option [ngValue]="0">
+
+            -- Select Employee --
+
+          </option>
+
+          @for (u of projectEmployees; track u.id) {
+
+            <option [ngValue]="u.id">
+
+              {{ u.name }}
+
+            </option>
+
+          }
+
         </select>
 
         <div class="modal-actions">
-          <button class="btn-primary" (click)="saveTask()">Save</button>
-          <button (click)="closeTaskForm()">Cancel</button>
+
+          <button
+            class="primary-btn"
+            (click)="saveTask()">
+
+            Save
+
+          </button>
+
+          <button
+            class="secondary-btn"
+            (click)="closeTaskForm()">
+
+            Cancel
+
+          </button>
+
         </div>
 
       </div>
+
     </div>
+
   }
 
 </div>

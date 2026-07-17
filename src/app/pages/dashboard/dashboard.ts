@@ -44,6 +44,9 @@ export class Dashboard implements OnInit {
           this.pageTitle = '📂 Files';
         } else if (event.url.includes('/chat')) {
           this.pageTitle = '💬 Chat';
+        } else if (event.url.includes('/profile')) {
+          // ← add this
+          this.pageTitle = '👤 My Profile'; // ← add this
         } else {
           this.pageTitle = '🏠 Home';
         }
